@@ -20,3 +20,6 @@ Redmi Note11T Pro
 - SetPassCall 200+
 - 三角形面数150~200万
 - APK包体550M
+- Redmi Note11T Pro 约24fps
+
+![](https://s3.bmp.ovh/imgs/2024/08/08/3c2a66760ddafc84.jpg)
