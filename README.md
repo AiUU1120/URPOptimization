@@ -20,6 +20,9 @@ Redmi Note11T Pro
 - SetPassCall 200+
 - 三角形面数150~200万
 - APK包体550M
-- Redmi Note11T Pro 约24fps
+- Redmi Note11T Pro 约16fps
+- 内存占用约1.7G
 
-![](https://s3.bmp.ovh/imgs/2024/08/08/3c2a66760ddafc84.jpg)
+![](https://s3.bmp.ovh/imgs/2024/08/08/f3d236a5d9f4730e.jpg)
+
+![](https://s3.bmp.ovh/imgs/2024/08/08/e791953b9d458772.png)
