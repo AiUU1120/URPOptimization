@@ -8,7 +8,7 @@
 
 https://assetstore.unity.com/packages/3d/environments/fantasy/suntail-stylized-fantasy-village-203303
 
-个人性能优化笔记
+个人性能优化相关笔记
 
 https://oqv1xm6asjg.feishu.cn/drive/folder/FvIMfXjMwl6AYzdPy3DcnMVVnkb?from=from_copylink
 
