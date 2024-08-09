@@ -57,3 +57,9 @@ Redmi Note11T Pro
 - 项目内模型不需要动画，将Animation Type设置为None
 - 由于该套资源模型制作较为规范，内存优化空间较少
 
+### 纹理资源优化
+
+- 更改纹理大小不是2的次幂的纹理大小
+- 将具有空Alpha通道的纹理的Alpha Source设为None
+- 降低过大纹理大小
+
