@@ -63,3 +63,5 @@ Redmi Note11T Pro
 - 将具有空Alpha通道的纹理的Alpha Source设为None
 - 降低过大纹理大小
 
+优化后包体降至370M
+
