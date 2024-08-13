@@ -65,3 +65,10 @@ Redmi Note11T Pro
 
 优化后包体降至370M
 
+## 性能总览与瓶颈定位
+
+![](https://s3.bmp.ovh/imgs/2024/08/14/be47397704a59ab6.png)
+
+在Redmi Note11T Pro上，每帧时间消耗大约65ms
+
+渲染线程上Gfx.PresentFrame线程约40ms，可知具有一定GPU瓶颈
