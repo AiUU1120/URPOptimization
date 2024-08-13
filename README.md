@@ -67,8 +67,28 @@ Redmi Note11T Pro
 
 ## 性能总览与瓶颈定位
 
+### Unity Profiler
+
 ![](https://s3.bmp.ovh/imgs/2024/08/14/be47397704a59ab6.png)
 
 在Redmi Note11T Pro上，每帧时间消耗大约65ms
 
 渲染线程上Gfx.PresentFrame线程约40ms，可知具有一定GPU瓶颈
+
+### Unity UPR
+
+利用Unity UPR的云真机功能进行测试，由于UPR没有我的设备Redmi Note11T Pro，采用同样搭载天玑8100的一加Ace进行替代
+
+![](https://s3.bmp.ovh/imgs/2024/08/14/aecd6095c63fdc52.png)
+
+同样是天玑8100的一加Ace比我的Redmi Note11T Pro平均帧数要高上几帧，可能是散热方面的差距？总之待优化问题还是非常多的，尤其是DrawCall
+
+### 结论
+
+GPU与带宽可能是主要瓶颈，可以确定大致的优化方向
+
+- 渲染流程与效果优化
+- 渲染中生成资源优化
+- DrawCall与SetPassCall
+- 片元着色器
+- 渲染三角形
