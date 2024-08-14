@@ -12,20 +12,14 @@ https://assetstore.unity.com/packages/3d/environments/fantasy/suntail-stylized-f
 
 https://oqv1xm6asjg.feishu.cn/drive/folder/FvIMfXjMwl6AYzdPy3DcnMVVnkb?from=from_copylink
 
-
-
 ## 测试机器
 
 Redmi Note11T Pro
-
-
 
 ## 性能分析工具
 
 - Unity Profiler
 - Unity UPR
-
-
 
 ## 优化前参考性能数据
 
@@ -92,3 +86,16 @@ GPU与带宽可能是主要瓶颈，可以确定大致的优化方向
 - DrawCall与SetPassCall
 - 片元着色器
 - 渲染三角形
+
+## 渲染流程分析
+
+![](https://s3.bmp.ovh/imgs/2024/08/15/3b3ab706ee3db792.png)
+
+由FrameDebug可知，UGUI与GUI的渲染都不是优化重点
+
+另外由Deferred Pass可知，该项目主要为延迟渲染，SSAO与后处理是耗时的大头（参考了其他人XCode下的性能分析）
+
+## SSAO优化
+
+
+
