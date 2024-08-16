@@ -118,3 +118,36 @@ SSAO优化后真机运行帧率提升至30fps左右，效果可谓显著，泪�
 ![](https://s3.bmp.ovh/imgs/2024/08/15/4661cd03c0eaa9c5.png)
 
 FXAA会带来一定的画面模糊问题，但在手机端是可以接受的
+
+## PostProcess后处理优化
+
+移除工程中一些不必要的后处理如白平衡（WhiteBalance）、渐晕（Vignette）、散色相差（ChromaticAberration），以及在移动端性能负载过大的动态模糊（MotionBlur）
+
+由于移除渐晕导致画面整体变亮，降低ColorAdjustments中的PostExposure从1.0到0.8弥补一下视觉上的差距
+
+![](https://s3.bmp.ovh/imgs/2024/08/17/68dabad02f041de3.png)
+
+将URPAsset中的后处理GradingMode改为更适合游戏的LDR模式，降低LUTsize，同时勾选Fast sRGB
+
+但要注意支持浮点精度纹理的平台或设备（如iPhone），Grading使用HDR模式效率会更高
+
+![](https://s3.bmp.ovh/imgs/2024/08/17/f0c289cfda0527a0.png)
+
+Bloom优化：查看Bloom的Shader可知Bloom是由四个Pass完成的，包括Bloom Prefilter做降采样，水平与垂直的两遍模糊，与Bloom Upsample图像合成，优化可以从降采样与模糊Pass入手
+
+查看后处理中Bloom相关代码，可以修改Bloom开始的采样分辨率从1/2降至1/4，然后将迭代次数降低为4；
+
+```// Start at half-res
+//---bloom opt 修改定义从多大分辨率从4分之一开始
+//int tw = m_Descriptor.width >> 1;
+//int th = m_Descriptor.height >> 1;
+int tw = m_Descriptor.width >> 2;
+int th = m_Descriptor.height >> 2;
+//---Determine the iteration count
+int maxSize = Mathf.Max(tw, th);
+int iterations = Mathf.FloorToInt(Mathf.Log(maxSize, 2f) - 1);
+iterations -= m_Bloom.skipIterations.value;
+//---bloom opt 修改最大downscale迭代次数
+//int mipCount = Mathf.Clamp(iterations, 1, k_MaxPyramidSize);
+int mipCount = Mathf.Clamp(iterations, 1, 4);
+```
