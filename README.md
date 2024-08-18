@@ -155,3 +155,17 @@ iterations -= m_Bloom.skipIterations.value;
 //int mipCount = Mathf.Clamp(iterations, 1, k_MaxPyramidSize);
 int mipCount = Mathf.Clamp(iterations, 1, 4);
 ```
+
+## 远景简化
+
+由于该场景中的远景是不可达区域，同时使用了模型，因此可以考虑将模型简化为天空盒
+
+远景使用模型的效果
+
+![](https://s3.bmp.ovh/imgs/2024/08/18/2660d065370a2a63.png)
+
+远景使用天空盒的效果
+
+![](https://s3.bmp.ovh/imgs/2024/08/18/08bdc2ec04a90cab.png)
+
+可见虽然精细度上有轻微下降，但效果还是不错的，性价比很高
