@@ -178,8 +178,30 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 调整后Batches和Shadow casters都有了明显的下降
 
-![](https://s3.bmp.ovh/imgs/2024/08/18/076141bacfcdfc07.png)
+![](https://s3.bmp.ovh/imgs/2024/08/18/3781c55dfbb26f85.png)
 
-但实机运行下帧率并没有明显提升，GPU绘制时间也只有1~2ms的差距，说明三角形面数和顶点数并不是主要性能瓶颈
+测试发现帧率并没有明显提升，GPU绘制时间也只有1~2ms的差距，发现是不同平台下的LOD Bias设置不一致导致的
 
 吐槽：一个个Prefab手调LOD实在是效率低下，也许需要一些自动化处理工具
+
+## 遮挡剔除
+
+通过查看Occlusion Culling，原场景作者是有做一定的遮挡剔除工作的
+
+![](https://s3.bmp.ovh/imgs/2024/08/19/4d9fedfc3d15c6f4.png)
+
+但原作者只做了静态遮挡剔除，对于需要动态遮挡剔除的物体（如可开关的门），为其额外添加Occlusion Portal，在开关门的相关脚本中设置遮挡剔除开关
+
+## 光影剔除
+
+由于之前把远景山的模型换成了天空盒，可先把远景相关的光源删除
+
+同时由于该场景内地形较为平坦，也没有需要投影阴影的表现，可将其Cast Shadows关闭
+
+考虑距离剔除，发现原项目也已经做了相关内容
+
+调整URPAsset中关于Lighting与Shadows的设置，降低Object接受光照最大数量，考虑光源大多室内，降低ShadowAtlasResolution，降低CascadeCount
+
+一波下来又有了一些提升
+
+![](https://s3.bmp.ovh/imgs/2024/08/19/98d0b81f7f74d32a.png)
