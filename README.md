@@ -169,3 +169,9 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 ![](https://s3.bmp.ovh/imgs/2024/08/18/08bdc2ec04a90cab.png)
 
 可见虽然精细度上有轻微下降，但效果还是不错的，性价比很高
+
+## 中景简化与LOD
+
+由于在场景中Batches过高，通过查看模型Prefab，发现有许多模型的LOD设置不合理，尤其是小物件，遂逐一进行了调整
+
+同时由于Shadow casters亦过高，可以关闭小物件在低LOD下的阴影
