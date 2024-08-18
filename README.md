@@ -172,9 +172,9 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 ## 中景简化与LOD
 
-由于在场景中Batches过高，通过查看模型Prefab，发现有许多模型的LOD设置不合理，尤其是小物件的剔除，遂逐一进行了调整
+- 由于在场景中Batches过高，通过查看模型Prefab，发现有许多模型的LOD设置不合理，尤其是小物件的剔除，遂逐一进行了调整
 
-同时由于Shadow casters亦过高，可以关闭小物件在低LOD下的阴影
+- 同时由于Shadow casters亦过高，可以关闭小物件在低LOD下的阴影
 
 调整后Batches和Shadow casters都有了明显的下降
 
@@ -194,13 +194,13 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 ## 光影剔除
 
-由于之前把远景山的模型换成了天空盒，可先把远景相关的光源删除
+- 由于之前把远景山的模型换成了天空盒，可先把远景相关的光源删除
 
-同时由于该场景内地形较为平坦，也没有需要投影阴影的表现，可将其Cast Shadows关闭
+- 同时由于该场景内地形较为平坦，也没有需要投影阴影的表现，可将其Cast Shadows关闭
 
-考虑距离剔除，发现原项目也已经做了相关内容
+- 考虑距离剔除，发现原项目也已经做了相关内容
 
-调整URPAsset中关于Lighting与Shadows的设置，降低Object接受光照最大数量，考虑光源大多室内，降低ShadowAtlasResolution，降低CascadeCount
+- 调整URPAsset中关于Lighting与Shadows的设置，降低Object接受光照最大数量，考虑光源大多室内，降低ShadowAtlasResolution，降低CascadeCount
 
 一波下来又有了一些提升
 
