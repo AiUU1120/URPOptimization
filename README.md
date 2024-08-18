@@ -172,12 +172,14 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 ## 中景简化与LOD
 
-由于在场景中Batches过高，通过查看模型Prefab，发现有许多模型的LOD设置不合理，尤其是小物件，遂逐一进行了调整
+由于在场景中Batches过高，通过查看模型Prefab，发现有许多模型的LOD设置不合理，尤其是小物件的剔除，遂逐一进行了调整
 
 同时由于Shadow casters亦过高，可以关闭小物件在低LOD下的阴影
 
 调整后Batches和Shadow casters都有了明显的下降
 
 ![](https://s3.bmp.ovh/imgs/2024/08/18/076141bacfcdfc07.png)
+
+但实机运行下帧率并没有明显提升，GPU绘制时间也只有1~2ms的差距，说明三角形面数和顶点数并不是主要性能瓶颈
 
 吐槽：一个个Prefab手调LOD实在是效率低下，也许需要一些自动化处理工具
