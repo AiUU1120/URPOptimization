@@ -4,13 +4,11 @@
 
 ## 简介
 
-针对AssetStore的SUNTAIL - Stylized Fantasy Village项目工程在移动平台的优化
+针对AssetStore的[SUNTAIL - Stylized Fantasy Village](https://assetstore.unity.com/packages/3d/environments/fantasy/suntail-stylized-fantasy-village-203303)项目工程在移动平台的优化
 
-https://assetstore.unity.com/packages/3d/environments/fantasy/suntail-stylized-fantasy-village-203303
+[个人性能优化相关笔记](https://oqv1xm6asjg.feishu.cn/drive/folder/FvIMfXjMwl6AYzdPy3DcnMVVnkb?from=from_copylink)
 
-个人性能优化相关笔记
 
-https://oqv1xm6asjg.feishu.cn/drive/folder/FvIMfXjMwl6AYzdPy3DcnMVVnkb?from=from_copylink
 
 ## 测试机器
 
@@ -168,7 +166,7 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 ![](https://s3.bmp.ovh/imgs/2024/08/18/08bdc2ec04a90cab.png)
 
-可见虽然精细度上有轻微下降，但效果还是不错的，性价比很高
+可见虽然精细度上有轻微下降，但效果还行，性价比很高
 
 ## 中景简化与LOD
 
@@ -205,3 +203,19 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 一波下来又有了一些提升
 
 ![](https://s3.bmp.ovh/imgs/2024/08/19/98d0b81f7f74d32a.png)
+
+## 地形优化
+
+原工程中的地形是用Unity自带的Terrain制作的，但Terrain在移动端的效率并不好
+
+一般来说会采用地形Mesh替代，这里借用第三方插件Terrain To Mesh自动生成地形Mesh
+
+如图所示，将原本的Terrain分成8*8的地形Mesh块
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/1d258f1e594f789c.png)
+
+[Terrain To Mesh Unity商店地址](https://assetstore.unity.com/packages/tools/terrain/terrain-to-mesh-195349)
+
+另外修改地形网格的绘制顺序，让其在不透明物体的最后绘制，避免支持SRP Batcher的对象被不支持SRP Batcher的地形块绘制所打断
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/6badef81a8641d3c.png)

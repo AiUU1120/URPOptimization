@@ -176,7 +176,7 @@ namespace Suntail
                 }
                 if (_groundHit.collider.GetComponent<Renderer>())
                 {
-                    _currentTexture = GetRendererTexture();
+                    // _currentTexture = GetRendererTexture();
                 }
             }
         }
