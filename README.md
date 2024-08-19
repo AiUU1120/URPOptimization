@@ -210,12 +210,12 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 
 一般来说会采用地形Mesh替代，这里借用第三方插件Terrain To Mesh自动生成地形Mesh
 
-如图所示，将原本的Terrain分成8*8的地形Mesh块
+- 如图所示，将原本的Terrain分成8*8的地形Mesh块
 
 ![](https://s3.bmp.ovh/imgs/2024/08/20/1d258f1e594f789c.png)
 
 [Terrain To Mesh Unity商店地址](https://assetstore.unity.com/packages/tools/terrain/terrain-to-mesh-195349)
 
-另外修改地形网格的绘制顺序，让其在不透明物体的最后绘制，避免支持SRP Batcher的对象被不支持SRP Batcher的地形块绘制所打断
+- 另外修改地形网格的绘制顺序，让其在不透明物体的最后绘制，避免支持SRP Batcher的对象被不支持SRP Batcher的地形块绘制所打断
 
 ![](https://s3.bmp.ovh/imgs/2024/08/20/6badef81a8641d3c.png)
