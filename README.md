@@ -139,7 +139,8 @@ Bloom优化：查看Bloom的Shader可知Bloom是由四个Pass完成的，包括B
 
 查看后处理中Bloom相关代码，可以修改Bloom开始的采样分辨率从1/2降至1/4，然后将迭代次数降低为4
 
-```// Start at half-res
+```
+// Start at half-res
 //---bloom opt 修改定义从多大分辨率从4分之一开始
 //int tw = m_Descriptor.width >> 1;
 //int th = m_Descriptor.height >> 1;
@@ -219,3 +220,38 @@ int mipCount = Mathf.Clamp(iterations, 1, 4);
 - 另外修改地形网格的绘制顺序，让其在不透明物体的最后绘制，避免支持SRP Batcher的对象被不支持SRP Batcher的地形块绘制所打断
 
 ![](https://s3.bmp.ovh/imgs/2024/08/20/6badef81a8641d3c.png)
+
+## 级联阴影优化
+
+从Frame Debugger可以看到投影数量非常多，DrawCall数量有数百次，每帧都要刷新绘制阴影贴图
+
+借用场景LOD的思想，既然远处的模型替换成了低模，动画看上去也不会动了，那么阴影贴图渲染其实每帧变化并不大，也会随着级联阴影层级的提高变化越来越小
+
+因此可以想到，对远距离的级联阴影级别下，可以不对每个物体阴影做重新绘制
+
+将阴影贴图进行cache缓存，并对级联阴影的每个级别的阴影贴图块按不同的刷新率去更新，就可以降低每帧投影体绘制的次数了
+
+- 在URP下，主光源级联阴影是通过MainLightShadowCasterPass脚本完成的，拷贝一份MainLightShadowCasterCachedPass，同时修改UniversalRenderer中所有MainLightShadowCasterPass为MainLightShadowCasterCachedPass
+
+- 由于级联阴影Texture不能每帧创建了，在MainLightShadowCasterCachedPass中移除m_MainLightShadowmapTexture的释放逻辑，并将释放逻辑分离出接口
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/a515b6df0b2997b0.png)
+
+- 将MainLightShadowmapTexture的释放逻辑移至UniversalRanderer下的Dispose中，相当于变相延长了它的生命周期
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/1eab3ce5d2f928ac.png)
+
+- 添加bool变量判断是否是第一帧，添加针对ShadowMap的更新数组，数组有几个元素代表了做几帧的更新循环，如1|4代表了第一个级别与第三个级别的级联阴影块，如此处代表了每3帧中第一个级别更新2次，第二个级别更新1次，另外一个创建记录当前运行到多少帧的变量，方便取模按照3帧一个循环更新阴影贴图
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/26a1abee42c7515c.png)
+
+- 修改MainLightShadowCasterCachedPass中ShadowMap创建逻辑，只有当对象为空或者ShadowMap大小发生改变时才创建
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/e66cc0abb17a7ae0.png)
+
+- 修改RenderMainLightCascadeShadowmap中的每帧渲染逻辑替换为按3帧一循环的渲染逻辑，并把RenderShadowSlice替换为修改的RenderShadowSlice，以控制不同级别阴影块的单独绘制，而不是控制整个ShadowMap了
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/e3e9290932690934.png)
+
+![](https://s3.bmp.ovh/imgs/2024/08/20/21b17f08b72b97a4.png)
+

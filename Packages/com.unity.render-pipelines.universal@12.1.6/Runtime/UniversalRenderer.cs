@@ -62,7 +62,7 @@ namespace UnityEngine.Rendering.Universal
         DepthNormalOnlyPass m_DepthNormalPrepass;
         CopyDepthPass m_PrimedDepthCopyPass;
         MotionVectorRenderPass m_MotionVectorPass;
-        MainLightShadowCasterPass m_MainLightShadowCasterPass;
+        MainLightShadowCasterCachedPass m_MainLightShadowCasterCachedPass;
         AdditionalLightsShadowCasterPass m_AdditionalLightsShadowCasterPass;
         GBufferPass m_GBufferPass;
         CopyDepthPass m_GBufferCopyDepthPass;
@@ -187,7 +187,7 @@ namespace UnityEngine.Rendering.Universal
 
             // Note: Since all custom render passes inject first and we have stable sort,
             // we inject the builtin passes in the before events.
-            m_MainLightShadowCasterPass = new MainLightShadowCasterPass(RenderPassEvent.BeforeRenderingShadows);
+            m_MainLightShadowCasterCachedPass = new MainLightShadowCasterCachedPass(RenderPassEvent.BeforeRenderingShadows);
             m_AdditionalLightsShadowCasterPass = new AdditionalLightsShadowCasterPass(RenderPassEvent.BeforeRenderingShadows);
 
 #if ENABLE_VR && ENABLE_XR_MODULE
@@ -301,6 +301,12 @@ namespace UnityEngine.Rendering.Universal
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
+            // 在此处释放m_MainLightShadowCasterCachedPass
+            if (m_MainLightShadowCasterCachedPass != null)
+            {
+                m_MainLightShadowCasterCachedPass.Cleanup();
+                m_MainLightShadowCasterCachedPass = null;
+            }
             m_ForwardLights.Cleanup();
             m_PostProcessPasses.Dispose();
 
@@ -347,7 +353,7 @@ namespace UnityEngine.Rendering.Universal
                         }
                         case DebugFullScreenMode.MainLightShadowMap:
                         {
-                            DebugHandler.SetDebugRenderTarget(m_MainLightShadowCasterPass.m_MainLightShadowmapTexture, normalizedRect, false);
+                            DebugHandler.SetDebugRenderTarget(m_MainLightShadowCasterCachedPass.m_MainLightShadowmapTexture, normalizedRect, false);
                             break;
                         }
                         default:
@@ -441,7 +447,7 @@ namespace UnityEngine.Rendering.Universal
             bool isGizmosEnabled = false;
 #endif
 
-            bool mainLightShadows = m_MainLightShadowCasterPass.Setup(ref renderingData);
+            bool mainLightShadows = m_MainLightShadowCasterCachedPass.Setup(ref renderingData);
             bool additionalLightShadows = m_AdditionalLightsShadowCasterPass.Setup(ref renderingData);
             bool transparentsNeedSettingsPass = m_TransparentSettingsPass.Setup(ref renderingData);
 
@@ -608,7 +614,7 @@ namespace UnityEngine.Rendering.Universal
             bool hasPassesAfterPostProcessing = activeRenderPassQueue.Find(x => x.renderPassEvent == RenderPassEvent.AfterRenderingPostProcessing) != null;
 
             if (mainLightShadows)
-                EnqueuePass(m_MainLightShadowCasterPass);
+                EnqueuePass(m_MainLightShadowCasterCachedPass);
 
             if (additionalLightShadows)
                 EnqueuePass(m_AdditionalLightsShadowCasterPass);
