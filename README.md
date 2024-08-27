@@ -139,21 +139,7 @@ Bloom优化：查看Bloom的Shader可知Bloom是由四个Pass完成的，包括B
 
 查看后处理中Bloom相关代码，可以修改Bloom开始的采样分辨率从1/2降至1/4，然后将迭代次数降低为4
 
-```
-// Start at half-res
-//---bloom opt 修改定义从多大分辨率从4分之一开始
-//int tw = m_Descriptor.width >> 1;
-//int th = m_Descriptor.height >> 1;
-int tw = m_Descriptor.width >> 2;
-int th = m_Descriptor.height >> 2;
-//---Determine the iteration count
-int maxSize = Mathf.Max(tw, th);
-int iterations = Mathf.FloorToInt(Mathf.Log(maxSize, 2f) - 1);
-iterations -= m_Bloom.skipIterations.value;
-//---bloom opt 修改最大downscale迭代次数
-//int mipCount = Mathf.Clamp(iterations, 1, k_MaxPyramidSize);
-int mipCount = Mathf.Clamp(iterations, 1, 4);
-```
+![](https://s3.bmp.ovh/imgs/2024/08/20/c96a9f7a298ee89f.png)
 
 ## 远景简化
 
