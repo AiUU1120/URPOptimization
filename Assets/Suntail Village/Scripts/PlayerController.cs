@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /*Simple player movement controller, based on character controller component, 
 with footstep system based on check the current texture of the component*/
@@ -56,6 +57,13 @@ namespace Suntail
         [Tooltip("Add textures for this layer and add sounds to be played for this texture")]
         public List<GroundLayer> groundLayers = new List<GroundLayer>();
 
+        [FormerlySerializedAs("m_FixedJoystick")]
+        [SerializeField]
+        private FixedJoystick m_MoveJoystick;
+
+        [SerializeField]
+        private FixedJoystick m_LookJoystick;
+        
         //Private movement variables
         private float _horizontalMovement;
         private float _verticalMovement;
@@ -84,8 +92,8 @@ namespace Suntail
         {
             _characterController = GetComponent<CharacterController>();
             GetTerrainData();
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            // Cursor.lockState = CursorLockMode.Locked;
+            // Cursor.visible = false;
         }
 
         //Getting all terrain data for footstep system
@@ -119,8 +127,10 @@ namespace Suntail
                 _velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
             }
             
-            _horizontalMovement = Input.GetAxis("Horizontal");
-            _verticalMovement = Input.GetAxis("Vertical");
+            // _horizontalMovement = Input.GetAxis("Horizontal");
+            _horizontalMovement = m_MoveJoystick.Horizontal;
+            // _verticalMovement = Input.GetAxis("Vertical");
+            _verticalMovement = m_MoveJoystick.Vertical;
 
             _moveDirection = transform.forward * _verticalMovement + transform.right * _horizontalMovement;
             
@@ -135,8 +145,10 @@ namespace Suntail
 
         private void MouseLook()
         {   
-            _xAxis = Input.GetAxis("Mouse X"); 
-            _yAxis = Input.GetAxis("Mouse Y");
+            // _xAxis = Input.GetAxis("Mouse X"); 
+            _xAxis = m_LookJoystick.Horizontal; 
+            // _yAxis = Input.GetAxis("Mouse Y");
+            _yAxis = m_LookJoystick.Vertical;
 
             _verticalRotation += -_yAxis * mouseSensivity;
             _verticalRotation = Mathf.Clamp(_verticalRotation, -mouseVerticalClamp, mouseVerticalClamp);
