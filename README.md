@@ -38,7 +38,7 @@ Redmi Note11T Pro
 
 ![](https://s3.bmp.ovh/imgs/2024/09/05/88262a409f6877ba.jpg)
 
-内存消耗也有了显著降低
+内存消耗也有了显著降低，同时APK包体大小降低到350M
 
 ![](https://s3.bmp.ovh/imgs/2024/09/05/5e73b4807ecfa070.png)
 
