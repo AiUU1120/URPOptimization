@@ -24,7 +24,7 @@ Redmi Note11T Pro
 - 渲染批次1500~2000
 - SetPassCall 200+
 - 三角形面数150~200万
-- APK包体550M
+- APK包体550M [优化前包体](https://github.com/AiUU1120/URPOptimization/releases/tag/dev)
 - Redmi Note11T Pro 约16fps
 - 内存占用约1.7G
 
@@ -38,7 +38,7 @@ Redmi Note11T Pro
 
 ![](https://s3.bmp.ovh/imgs/2024/09/05/88262a409f6877ba.jpg)
 
-内存消耗也有了显著降低，同时APK包体大小降低到350M
+内存消耗也有了显著降低，同时APK包体大小降低到350M [优化后包体](https://github.com/AiUU1120/URPOptimization/releases/tag/opt)
 
 ![](https://s3.bmp.ovh/imgs/2024/09/05/5e73b4807ecfa070.png)
 
