@@ -53,7 +53,7 @@ namespace UnityEngine.Rendering.Universal.Internal
 
         public MainLightShadowCasterCachedPass(RenderPassEvent evt)
         {
-            base.profilingSampler = new ProfilingSampler(nameof(MainLightShadowCasterPass));
+            base.profilingSampler = new ProfilingSampler(nameof(MainLightShadowCasterCachedPass));
             renderPassEvent = evt;
 
             m_MainLightShadowMatrices = new Matrix4x4[k_MaxCascades + 1];

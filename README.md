@@ -241,3 +241,12 @@ Bloom优化：查看Bloom的Shader可知Bloom是由四个Pass完成的，包括B
 
 ![](https://s3.bmp.ovh/imgs/2024/08/20/21b17f08b72b97a4.png)
 
+## 内存优化
+
+从UPR分析报告中可以看出，内存占用较大，尚需优化
+
+![](https://s3.bmp.ovh/imgs/2024/09/04/a42eb79636d88711.png)
+
+从对象快照中发现，网格资源占了内存占用的大头，足有300多MB
+
+![](https://s3.bmp.ovh/imgs/2024/09/04/f34d22be810729a2.png)
